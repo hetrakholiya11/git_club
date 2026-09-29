@@ -1,0 +1,434 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens via @theme ─── */
+@theme {
+  --color-lime: #d4ff32;
+  --color-lime-dim: #b8e61a;
+  --color-lime-glow: rgba(212, 255, 50, 0.22);
+  --color-charcoal: #0a0c10;
+  --color-charcoal-card: #131720;
+  --color-charcoal-border: #232a39;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ─── CSS Variable Theming ─── */
+:root {
+  --bg-primary: #090b0e;
+  --bg-secondary: #0f1217;
+  --bg-card: #131720;
+  --bg-card-hover: #181d28;
+  --bg-surface: #1a202c;
+  --bg-surface-hover: #222938;
+  --border-color: #232a39;
+  --border-light: #323c50;
+  --border-accent: rgba(212, 255, 50, 0.35);
+
+  --text-primary: #f5f6f8;
+  --text-muted: #9fa6b4;
+  --text-dim: #646d7e;
+
+  --color-lime: #d4ff32;
+  --color-lime-dim: #b8e61a;
+  --color-lime-glow: rgba(212, 255, 50, 0.22);
+
+  color-scheme: dark;
+}
+
+html.light {
+  --bg-primary: #fafaf8;
+  --bg-secondary: #f3f3f0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8f8f6;
+  --bg-surface: #eeeeea;
+  --bg-surface-hover: #e5e5e0;
+  --border-color: #e2e2dc;
+  --border-light: #d0d0c8;
+  --border-accent: rgba(184, 230, 26, 0.45);
+
+  --text-primary: #111418;
+  --text-muted: #5e6573;
+  --text-dim: #8b92a2;
+
+  --color-lime: #7aa300;
+  --color-lime-dim: #638500;
+  --color-lime-glow: rgba(122, 163, 0, 0.18);
+
+  color-scheme: light;
+}
+
+/* ─── Base ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* ─── Architectural Grid Texture & Tech Lines ─── */
+.grid-texture {
+  background-image:
+    linear-gradient(rgba(212, 255, 50, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 255, 50, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+html.light .grid-texture {
+  background-image:
+    linear-gradient(rgba(17, 20, 24, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 20, 24, 0.035) 1px, transparent 1px);
+}
+
+.subtle-dots {
+  background-image: radial-gradient(rgba(212, 255, 50, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+html.light .subtle-dots {
+  background-image: radial-gradient(rgba(17, 20, 24, 0.07) 1px, transparent 1px);
+}
+
+/* ─── Animations ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseLime {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.15); }
+}
+
+@keyframes tickerMove {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-lime {
+  animation: pulseLime 2.5s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.04s; }
+.stagger-2 { animation-delay: 0.08s; }
+.stagger-3 { animation-delay: 0.12s; }
+.stagger-4 { animation-delay: 0.16s; }
+.stagger-5 { animation-delay: 0.20s; }
+.stagger-6 { animation-delay: 0.24s; }
+.stagger-7 { animation-delay: 0.28s; }
+.stagger-8 { animation-delay: 0.32s; }
+
+/* ─── Theme-aware utility classes ─── */
+.bg-themed {
+  background-color: var(--bg-primary);
+}
+.bg-themed-secondary {
+  background-color: var(--bg-secondary);
+}
+.bg-themed-card {
+  background-color: var(--bg-card);
+}
+.bg-themed-surface {
+  background-color: var(--bg-surface);
+}
+.bg-themed-surface-hover {
+  background-color: var(--bg-surface-hover);
+}
+.border-themed {
+  border-color: var(--border-color);
+}
+.border-themed-light {
+  border-color: var(--border-light);
+}
+.text-themed {
+  color: var(--text-primary);
+}
+.text-themed-muted {
+  color: var(--text-muted);
+}
+.text-themed-dim {
+  color: var(--text-dim);
+}
+
+/* ─── Editorial Card & Hover Effects ─── */
+.project-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-light);
+  border-color: var(--border-light);
+}
+
+.project-card .card-image {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+
+.project-card:hover .card-image {
+  transform: scale(1.04);
+}
+
+/* ─── List Item Hover ─── */
+.project-list-row {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.project-list-row:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--border-light);
+  transform: translateX(3px);
+}
+
+/* ─── Featured Spotlight Card ─── */
+.featured-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-accent);
+  border-color: var(--border-accent);
+}
+
+/* ─── Buttons ─── */
+.btn-lime {
+  background-color: var(--color-lime);
+  color: #090b0e;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-lime:hover {
+  background-color: var(--color-lime-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--color-lime-glow);
+}
+
+.btn-lime:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  border-color: var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.btn-outline-lime:hover {
+  border-color: var(--color-lime);
+  color: var(--color-lime);
+  background-color: rgba(212, 255, 50, 0.06);
+}
+
+/* ─── Tech Badge Chips ─── */
+.tech-tag {
+  background-color: rgba(212, 255, 50, 0.08);
+  color: var(--color-lime);
+  border: 1px solid rgba(212, 255, 50, 0.16);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+html.light .tech-tag {
+  background-color: rgba(122, 163, 0, 0.09);
+  color: #557500;
+  border-color: rgba(122, 163, 0, 0.2);
+}
+
+.tech-tag:hover {
+  background-color: rgba(212, 255, 50, 0.16);
+  border-color: rgba(212, 255, 50, 0.35);
+}
+
+/* ─── Status Badges ─── */
+.status-completed {
+  background-color: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.status-in-progress {
+  background-color: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.status-planning {
+  background-color: rgba(168, 140, 240, 0.12);
+  color: #a88cf0;
+  border: 1px solid rgba(168, 140, 240, 0.25);
+}
+
+/* ─── Category Active ─── */
+.category-active {
+  background-color: var(--color-lime) !important;
+  color: #090b0e !important;
+  border-color: var(--color-lime) !important;
+  font-weight: 600;
+}
+
+/* ─── Nav Active Link ─── */
+.nav-active {
+  color: var(--color-lime);
+}
+
+html.light .nav-active {
+  color: #111418;
+  font-weight: 600;
+}
+
+/* ─── Image shimmer loading ─── */
+.img-loading {
+  background: linear-gradient(110deg, var(--bg-card) 8%, var(--bg-surface) 18%, var(--bg-card) 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Navbar ─── */
+.navbar {
+  background-color: rgba(9, 11, 14, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+html.light .navbar {
+  background-color: rgba(250, 250, 248, 0.88);
+}
+
+/* ─── Search & Form Inputs ─── */
+.editorial-input {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.editorial-input:focus {
+  outline: none;
+  border-color: rgba(212, 255, 50, 0.5);
+  box-shadow: 0 0 0 3px rgba(212, 255, 50, 0.12);
+}
+
+html.light .editorial-input:focus {
+  border-color: rgba(122, 163, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(122, 163, 0, 0.12);
+}
+
+/* ─── Reduced Motion Preference Support ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-pulse-lime,
+  .animate-fade-in-up,
+  .animate-fade-in,
+  .animate-scale-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
